@@ -134,3 +134,10 @@ function RltvDisp(x,y) {
   return [minkill*x,minkill*y]
 };//(>--<)
 
+//return rgb values in contecated format
+function rgb(r,g,b){
+    return 'rgb('+r+','+g+','+b+')'
+};//(>--<)
+
+
+
