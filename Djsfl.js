@@ -1,4 +1,5 @@
 //Djsfl Daki javascript function library
+// V1.2 - size/position related objects now output vectors
 
 // refer to element by id
 function RefById(id) {
@@ -6,13 +7,23 @@ function RefById(id) {
 };//(>--<)
 
 
+//A simulated vector using x,y axises
+function Vector2(x, y){
+let vec = new Object()
+vec.x = x
+vec.y = y
+return vec
+};
+
+
 
 //create element to document
 function Cobj(id,type,debug){
    const obj = document.createElement(type)
    const objS = obj.style
+   if (id!=''){
     obj.id = id
-
+   }
     //object becomes visually seeable in debug mode
     if (debug != false||debug !=""){
         console.log('debugging object'+id)
@@ -35,12 +46,13 @@ function RanNumBet(a,b) {
 
 
 //set position of element by pixels
-function SetPosByPx(obj,x,y,center){
-    let objS = obj.style
+function SetPosByPx(obj,pos,center){
+    const objS = obj.style
     objS.position = 'absolute'
-
+    let x = pos.x
+    let y = pos.y
     //Object centered visually?
-    if (center == false ||center=="" ||center==undefined){
+    if (center == false ||center==""){
         objS.top = y+'px';objS.left = x+'px'
         } else{
             objS.top = y-obj.offsetHeight/2+'px'
@@ -51,10 +63,11 @@ function SetPosByPx(obj,x,y,center){
 
 
 //set position of element by percentage
-function SetPosByPer(obj,x,y,center){
+function SetPosByPer(obj,pos,center){
     const objS = obj.style
     objS.position = 'absolute'
-    
+    let x = pos.x
+    let y = pos.y
     //Object centered visually?
     if (center == false ||center==""){
     objS.top = y*window.innerHeight+'px';objS.left = x*window.innerWidth+'px'
@@ -67,7 +80,10 @@ function SetPosByPer(obj,x,y,center){
 
 
 //set size of element by px
-function SetSizeByPx(obj,x,y){
+function SetSizeByPx(obj,pos){
+    let x = pos.x
+    let y = pos.y
+
     const objS = obj.style
     objS.position = 'absolute'
     objS.height = y+'px';objS.width = x+'px'
@@ -76,7 +92,9 @@ function SetSizeByPx(obj,x,y){
 
 
 //set size of element by percentage
-function SetSizeByPer(obj,x,y){
+function SetSizeByPer(obj,pos){
+    let x = pos.x
+    let y = pos.y
     const objS = obj.style
     objS.position = 'absolute'
     objS.height = y*window.innerHeight+'px';objS.width = x*window.innerWidth+'px'
@@ -91,7 +109,9 @@ function GetSizeByPx(obj){
     const curdisp = objS.display
     objS.display = "block"
 
-    const size = [obj.offsetWidth,obj.offsetHeight]
+    const size = new Object()
+    size.x = obj.offsetWidth
+    size.y = obj.offsetHeight
 
     //return to normal state
     objS.display = curdisp
@@ -107,7 +127,9 @@ function GetPosByPx(obj){
     const curdisp = objS.display
     objS.display = "block"
 
-    const pos = [obj.offsetLeft,obj.offsetTop]
+    const pos = new Object('Vector')
+    pos.x = obj.offsetLeft
+    pos.y = obj.offsetTop
 
     //return to normal state
     objS.display = curdisp
@@ -115,29 +137,19 @@ function GetPosByPx(obj){
 };//(>--<)
 
 
-
-
-//changes the offset positvely or negatvely of the object
-function SetOffsetPos(obj,x,y){
-let objS = obj.style
-objS.position = 'absolute'
-
-objS.top = (obj.offsetTop+y)+'px'
-objS.left = (obj.offsetLeft+x)+'px'
-};//(>--<)
-
-
 //retrieve relative size to the window size with desired window ratios (ex 16:9, 4:3) 
 //while maintaining size within window
-function RltvDisp(x,y) {
-  const minkill = Math.min(window.innerWidth/x,window.innerHeight/y)
-  return [minkill*x,minkill*y]
+function RltvDisp(x ,y) {
+    const minkill = Math.min(window.innerWidth/x,window.innerHeight/y)
+    let pos = new Object()
+    pos.x = minkill*x
+    pos.y = minkill*y
+
+    return pos
 };//(>--<)
 
-//return rgb values in contecated format
+
+
 function rgb(r,g,b){
     return 'rgb('+r+','+g+','+b+')'
-};//(>--<)
-
-
-
+}
