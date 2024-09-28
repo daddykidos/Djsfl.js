@@ -1,14 +1,15 @@
 //Djsfl Daki javascript function library
-// V1.2 - size/position related objects now output vectors
+// V1.2.1 - changed whole code into camelcase capitalization
+
 
 // refer to element by id
-function RefById(id) {
+function refById(id) {
    return document.getElementById(id)
 };//(>--<)
 
 
 //A simulated vector using x,y axises
-function Vector2(x, y){
+function vector2(x, y){
 let vec = new Object()
 vec.x = x
 vec.y = y
@@ -18,7 +19,7 @@ return vec
 
 
 //create element to document
-function Cobj(id,type,debug){
+function cobj(id,type,debug){
    const obj = document.createElement(type)
    const objS = obj.style
    if (id!=''){
@@ -39,14 +40,14 @@ function Cobj(id,type,debug){
 
 
 // Random number between 2 parameters
-function RanNumBet(a,b) {
+function ranNumBet(a,b) {
     return a+(b*Math.random())
 };//(>--<)
 
 
 
 //set position of element by pixels
-function SetPosByPx(obj,pos,center){
+function setPosByPx(obj,pos,center){
     const objS = obj.style
     objS.position = 'absolute'
     let x = pos.x
@@ -63,7 +64,7 @@ function SetPosByPx(obj,pos,center){
 
 
 //set position of element by percentage
-function SetPosByPer(obj,pos,center){
+function setPosByPer(obj,pos,center){
     const objS = obj.style
     objS.position = 'absolute'
     let x = pos.x
@@ -80,7 +81,7 @@ function SetPosByPer(obj,pos,center){
 
 
 //set size of element by px
-function SetSizeByPx(obj,pos){
+function setSizeByPx(obj,pos){
     let x = pos.x
     let y = pos.y
 
@@ -92,7 +93,7 @@ function SetSizeByPx(obj,pos){
 
 
 //set size of element by percentage
-function SetSizeByPer(obj,pos){
+function setSizeByPer(obj,pos){
     let x = pos.x
     let y = pos.y
     const objS = obj.style
@@ -103,7 +104,7 @@ function SetSizeByPer(obj,pos){
 
 
 //get size by pixels - returns an array containing 2 values indexed by 1 or 0 
-function GetSizeByPx(obj){
+function getSizeByPx(obj){
     const objS = obj.style
     //get original disp to avoid error
     const curdisp = objS.display
@@ -121,7 +122,7 @@ function GetSizeByPx(obj){
 
 
 //get position by pixels - returns an array containing 2 values indexed by 1 or 0 
-function GetPosByPx(obj){
+function getPosByPx(obj){
     const objS = obj.style
     //get original disp to avoid error
     const curdisp = objS.display
@@ -139,7 +140,7 @@ function GetPosByPx(obj){
 
 //retrieve relative size to the window size with desired window ratios (ex 16:9, 4:3) 
 //while maintaining size within window
-function RltvDisp(x ,y) {
+function rltvDisp(x ,y) {
     const minkill = Math.min(window.innerWidth/x,window.innerHeight/y)
     let pos = new Object()
     pos.x = minkill*x
