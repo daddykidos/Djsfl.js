@@ -84,9 +84,7 @@ function setPosByPer(obj,pos,center){
 function setSizeByPx(obj,pos){
     let x = pos.x
     let y = pos.y
-
     const objS = obj.style
-    objS.position = 'absolute'
     objS.height = y+'px';objS.width = x+'px'
 };//(>--<)
 
@@ -97,7 +95,6 @@ function setSizeByPer(obj,pos){
     let x = pos.x
     let y = pos.y
     const objS = obj.style
-    objS.position = 'absolute'
     objS.height = y*window.innerHeight+'px';objS.width = x*window.innerWidth+'px'
 };//(>--<)
 
