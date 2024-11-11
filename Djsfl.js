@@ -19,7 +19,7 @@ return vec
 
 
 //create element to document
-function cobj(id,type,debug){
+function createElement(id,type,debug){
    const obj = document.createElement(type)
    const objS = obj.style
    if (id!=''){
