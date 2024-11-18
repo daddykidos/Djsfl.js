@@ -41,7 +41,7 @@ function createElement(id,type,debug){
 
 // Random number between 2 parameters
 function ranNumBet(a,b) {
-    return a+(b*Math.random())
+    return a+(b-a)*Math.random()
 };//(>--<)
 
 
