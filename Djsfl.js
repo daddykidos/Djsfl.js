@@ -118,17 +118,21 @@ function getSizeByPx(obj){
 
 
 
-//get position by pixels - returns an array containing 2 values indexed by 1 or 0 
-function getPosByPx(obj){
+//get position by pixels index by x or y
+function getPosByPx(obj,center){
     const objS = obj.style
     //get original disp to avoid error
     const curdisp = objS.display
     objS.display = "block"
 
     const pos = new Object('Vector')
+   if(center!=true){
     pos.x = obj.offsetLeft
     pos.y = obj.offsetTop
-
+   }else{
+   pos.x = obj.offsetleft+obj.offsetWidth/2
+   pos.y = obj.offsetTop+obj.offsetHeight/2   
+   }
     //return to normal state
     objS.display = curdisp
     return pos
