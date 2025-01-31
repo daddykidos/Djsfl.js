@@ -12,7 +12,7 @@ function refById(id) {
 function vector2(x, y){
 let vec = new Object()
 vec.x = x
-vec.y = y
+if(y==null){vec.y = x}else{vec.y = y}
 return vec
 };
 
@@ -26,7 +26,7 @@ function createElement(id,type,debug){
     obj.id = id
    }
     //object becomes visually seeable in debug mode
-    if (debug != false||debug !=""){
+    if (debug != false||debug !=null){
         console.log('debugging object'+id)
         objS.position = 'absolute'
         objS.background = 'grey'
@@ -70,7 +70,7 @@ function setPosByPer(obj,pos,center){
     let x = pos.x
     let y = pos.y
     //Object centered visually?
-    if (center == false ||center==""){
+    if (center == false ||center==null){
     objS.top = y*window.innerHeight+'px';objS.left = x*window.innerWidth+'px'
     } else{
         objS.top = y*window.innerHeight-obj.offsetHeight/2+'px'
@@ -81,9 +81,9 @@ function setPosByPer(obj,pos,center){
 
 
 //set size of element by px
-function setSizeByPx(obj,pos){
-    let x = pos.x
-    let y = pos.y
+function setSizeByPx(obj,size){
+    let x = size.x
+    let y = size.y
     const objS = obj.style
     objS.height = y+'px';objS.width = x+'px'
 };//(>--<)
@@ -91,9 +91,9 @@ function setSizeByPx(obj,pos){
 
 
 //set size of element by percentage
-function setSizeByPer(obj,pos){
-    let x = pos.x
-    let y = pos.y
+function setSizeByPer(obj,size){
+    let x = size.x
+    let y = size.y
     const objS = obj.style
     objS.height = y*window.innerHeight+'px';objS.width = x*window.innerWidth+'px'
 };//(>--<)
@@ -126,7 +126,7 @@ function getPosByPx(obj,center){
     objS.display = "block"
 
     const pos = new Object('Vector')
-   if(center!=true){
+   if(center!=true | center==null){
     pos.x = obj.offsetLeft
     pos.y = obj.offsetTop
    }else{
