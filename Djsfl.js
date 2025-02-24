@@ -1,5 +1,4 @@
 //Djsfl Daki javascript function library
-// V1.2.1 - changed whole code into camelcase capitalization
 
 
 // refer to element by id
