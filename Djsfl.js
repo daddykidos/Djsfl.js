@@ -124,7 +124,7 @@ function getPosByPx(obj,center){
     const curdisp = objS.display
     objS.display = "block"
 
-    const pos = new Object('Vector')
+    const pos = new Object()
    if(center!=true | center==null){
     pos.x = obj.offsetLeft
     pos.y = obj.offsetTop
