@@ -15,7 +15,10 @@ if(y==null){vec.y = x}else{vec.y = y}
 return vec
 };
 
-
+//shortcut for the function "vector2"
+function vec2(x, y){
+return vector2(x, y);
+};
 
 //create element to document
 function createElement(id,type,debug){
