@@ -156,4 +156,23 @@ function rltvDisp(x ,y) {
 
 function rgb(r,g,b){
     return 'rgb('+r+','+g+','+b+')'
+};
+
+
+//get minimum width of window - default inner value true
+/**
+ * @param {Boolean} inner - default value = true
+ * -inner refers to inner window size or outer
+ */
+function windowMin(inner) {
+    let w = window.innerWidth
+    let h = window.innerHeight
+    if (inner == undefined || Boolean(inner) == true) {
+        return Math.min(w, h)
+    } else { return Math.max(w, h) }
+
 }
+
+
+
+
