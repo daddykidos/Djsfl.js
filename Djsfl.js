@@ -1,178 +1,92 @@
-//Djsfl Daki javascript function library
+/** djsfl.js object properties
+ * object which are created with the createElement function has the 'djsflElement' className
+ *
+ * elementHandler() - function to refresh properties of elements
+ *
+ * properties:
+ * pos - vector2        note: (not position) as conflicts with js
+ * size - vector2
+ * centerPos - bool     note: does not affect pos just visually
+ * mainRatio - bool     note: keeps ratio of pos/size to match window - to be add
+ */
 
-
-// refer to element by id
-function refById(id) {
-   return document.getElementById(id)
-};//(>--<)
 
 
 //A simulated vector using x,y axises
-function vector2(x, y){
-let vec = new Object()
-vec.x = x
-if(y==null){vec.y = x}else{vec.y = y}
-return vec
+function vector2(x, y) {
+    if (y == undefined) { y = x }
+    return {x: x, y: y };
 };
 
 //shortcut for the function "vector2"
-function vec2(x, y){
-return vector2(x, y);
+function vec2(x, y) { return vector2(x, y) };
+
+/**
+ @param perWin - 'Percentaged window in vector2 form'
+ * range - 0-1
+ */
+function perWin(x, y) {
+    const height = window.innerHeight
+    if (y == undefined) { y = height * x } else { y = height * y }
+    return { x: window.innerWidth * x, y: y }
+}
+
+// refer to element by id
+function refById(id) { return document.getElementById(id) };
+
+//create element to document body
+function createElement(type, debug, id) {
+    const obj = document.createElement(type);
+    const objS = obj.style;
+    obj.className = 'djsflElement';
+    if (id != undefined) { obj.id = id };
+
+    if (debug == true) {
+        objS.position = 'absolute';
+        objS.background = 'grey';
+        obj.size = perWin(.1); obj.pos = vec2(0)
+        objS.width = obj.size.x + 'px';
+        objS.height = obj.size.y + 'px';
+    }; return document.body.appendChild(obj);
 };
-
-//create element to document
-function createElement(id,type,debug){
-   const obj = document.createElement(type)
-   const objS = obj.style
-   if (id!=''){
-    obj.id = id
-   }
-    //object becomes visually seeable in debug mode
-    if (debug != false||debug !=null){
-        console.log('debugging object'+id)
-        objS.position = 'absolute'
-        objS.background = 'grey'
-        objS.width = window.innerWidth*0.05+"px"
-        objS.height = window.innerHeight*0.05+"px"
-    };
-
-  return  document.body.appendChild(obj)
-};//(>--<)
-
-
 
 // Random number between 2 parameters
-function ranNumBet(a,b) {
-    return a+(b-a)*Math.random()
-};//(>--<)
+function ranNumBet(a, b) { return a + (b - a) * Math.random() };
 
-
-
-//set position of element by pixels
-function setPosByPx(obj,pos,center){
-    const objS = obj.style
-    objS.position = 'absolute'
-    let x = pos.x
-    let y = pos.y
-    //Object centered visually?
-    if (center == false ||center==""){
-        objS.top = y+'px';objS.left = x+'px'
-        } else{
-            objS.top = y-obj.offsetHeight/2+'px'
-            objS.left = x-obj.offsetWidth/2+'px'
-        };
-};//(>--<)
-
-
-
-//set position of element by percentage
-function setPosByPer(obj,pos,center){
-    const objS = obj.style
-    objS.position = 'absolute'
-    let x = pos.x
-    let y = pos.y
-    //Object centered visually?
-    if (center == false ||center==null){
-    objS.top = y*window.innerHeight+'px';objS.left = x*window.innerWidth+'px'
-    } else{
-        objS.top = y*window.innerHeight-obj.offsetHeight/2+'px'
-        objS.left = x*window.innerWidth-obj.offsetWidth/2+'px'
-    };
-};//(>--<)
-
-
-
-//set size of element by px
-function setSizeByPx(obj,size){
-    let x = size.x
-    let y = size.y
-    const objS = obj.style
-    objS.height = y+'px';objS.width = x+'px'
-};//(>--<)
-
-
-
-//set size of element by percentage
-function setSizeByPer(obj,size){
-    let x = size.x
-    let y = size.y
-    const objS = obj.style
-    objS.height = y*window.innerHeight+'px';objS.width = x*window.innerWidth+'px'
-};//(>--<)
-
-
-
-//get size by pixels - returns an array containing 2 values indexed by 1 or 0 
-function getSizeByPx(obj){
-    const objS = obj.style
-    //get original disp to avoid error
-    const curdisp = objS.display
-    objS.display = "block"
-
-    const size = new Object()
-    size.x = obj.offsetWidth
-    size.y = obj.offsetHeight
-
-    //return to normal state
-    objS.display = curdisp
-    return size
-};//(>--<)
-
-
-
-//get position by pixels index by x or y
-function getPosByPx(obj,center){
-    const objS = obj.style
-    //get original disp to avoid error
-    const curdisp = objS.display
-    objS.display = "block"
-
-    const pos = new Object()
-   if(center!=true | center==null){
-    pos.x = obj.offsetLeft
-    pos.y = obj.offsetTop
-   }else{
-   pos.x = obj.offsetleft+obj.offsetWidth/2
-   pos.y = obj.offsetTop+obj.offsetHeight/2   
-   }
-    //return to normal state
-    objS.display = curdisp
-    return pos
-};//(>--<)
-
-
-//retrieve relative size to the window size with desired window ratios (ex 16:9, 4:3) 
+//retrieve relative size to the window size with desired window ratios (ex 16:9, 4:3)
 //while maintaining size within window
-function rltvDisp(x ,y) {
-    const minkill = Math.min(window.innerWidth/x,window.innerHeight/y)
-    let pos = new Object()
-    pos.x = minkill*x
-    pos.y = minkill*y
-
-    return pos
-};//(>--<)
-
-
-
-function rgb(r,g,b){
-    return 'rgb('+r+','+g+','+b+')'
+function rltvDisp(x, y) {
+    const minRatio = Math.min(window.innerWidth / x, window.innerHeight / y)
+    return { x: minRatio * x, y: minRatio * y }
 };
 
+//get rgb values in string format
+function rgb(r, g, b) { return 'rgb(' + r + ',' + g + ',' + b + ')' }
 
-//get minimum width of window - default inner value true
-/**
- * @param {Boolean} inner - default value = true
- * -inner refers to inner window size or outer
- */
-function windowMin(inner) {
-    let w = window.innerWidth
-    let h = window.innerHeight
-    if (inner == undefined || Boolean(inner) == true) {
-        return Math.min(w, h)
-    } else { return Math.max(w, h) }
-
+function minWin(){
+    return Math.min(window.innerHeight,window.innerWidth)
 }
 
 
 
+/**Handles elements with 'djsflElement' className
+ *   refreshes properties such as size/pos
+ *   remember to set respective properties 'display' of elements
+ */
+function elementHandler() {
+    Array.from(document.body.getElementsByClassName('djsflElement')).forEach((obj, index) => {
+        let objS = obj.style
 
+        //refreshing size
+        objS.width = obj.size.x + "px"; objS.height = obj.size.y + "px"
+
+        //refreshing position - note incorporate (document.body.style.down/right)
+        if (obj.centerPos != false) {
+            objS.left = obj.pos.x - obj.size.x / 2 + 'px'
+            objS.top = obj.pos.y - obj.size.y / 2 + 'px'
+        } else {
+            objS.left = obj.pos.x + 'px'; objS.top = obj.pos.y + "px"
+        }
+
+    })
+};
