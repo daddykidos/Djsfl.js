@@ -1,4 +1,5 @@
 **DaKi Javascript function library - Djsfl.js**
+
 Note: This variant will no longer be the focus for development as djsflV2.js will now be the new standard for development as it is more optimized than this variant
 
 This is a minimal javascript library for some simple graphical stuff
