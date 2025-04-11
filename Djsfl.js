@@ -81,7 +81,7 @@ function elementHandler() {
         objS.width = obj.size.x + "px"; objS.height = obj.size.y + "px"
 
         //refreshing position - note incorporate (document.body.style.down/right)
-        if (obj.centerPos != false) {
+        if (obj.centerPos != false || obj.centerPos != undefined) {
             objS.left = obj.pos.x - obj.size.x / 2 + 'px'
             objS.top = obj.pos.y - obj.size.y / 2 + 'px'
         } else {
