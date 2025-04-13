@@ -6,16 +6,19 @@
  * properties:
  * pos - vector2        note: (not position) as conflicts with js
  * size - vector2
- * centerPos - bool     note: does not affect pos just visually
- * mainRatio - bool     note: keeps ratio of pos/size to match window - to be add
+ * anchor - vector2     note: default vec2(0,0) - top left
+ *
+ * mainRatio - vector2  note: keeps ratio of pos/size to match window
+ * (may or may not be added - depending on use case)
  */
 
 
 
 //A simulated vector using x,y axises
 function vector2(x, y) {
+    if (x == undefined) { x = 0 }
     if (y == undefined) { y = x }
-    return {x: x, y: y };
+    return { x: x, y: y };
 };
 
 //shortcut for the function "vector2"
@@ -40,11 +43,13 @@ function createElement(type, debug, id) {
     const objS = obj.style;
     obj.className = 'djsflElement';
     if (id != undefined) { obj.id = id };
+    obj.pos = vec2(); obj.anchor = vec2(); obj.size = vec2()
+
 
     if (debug == true) {
         objS.position = 'absolute';
         objS.background = 'grey';
-        obj.size = perWin(.1); obj.pos = vec2(0)
+        obj.size = perWin(.1);
         objS.width = obj.size.x + 'px';
         objS.height = obj.size.y + 'px';
     }; return document.body.appendChild(obj);
@@ -63,8 +68,9 @@ function rltvDisp(x, y) {
 //get rgb values in string format
 function rgb(r, g, b) { return 'rgb(' + r + ',' + g + ',' + b + ')' }
 
-function minWin(){
-    return Math.min(window.innerHeight,window.innerWidth)
+//return the min
+function minWin() {
+    return Math.min(window.innerHeight, window.innerWidth)
 }
 
 
@@ -80,13 +86,9 @@ function elementHandler() {
         //refreshing size
         objS.width = obj.size.x + "px"; objS.height = obj.size.y + "px"
 
-        //refreshing position - note incorporate (document.body.style.down/right)
-        if (obj.centerPos != false || obj.centerPos != undefined) {
-            objS.left = obj.pos.x - obj.size.x / 2 + 'px'
-            objS.top = obj.pos.y - obj.size.y / 2 + 'px'
-        } else {
-            objS.left = obj.pos.x + 'px'; objS.top = obj.pos.y + "px"
-        }
+        //refreshing position - anchor applied
+        objS.left = obj.pos.x - obj.anchor.x * obj.size.x + 'px'
+        objS.top = obj.pos.y - obj.anchor.y * obj.size.y + 'px'
 
     })
 };
