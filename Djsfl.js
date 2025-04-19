@@ -72,11 +72,9 @@ function rltvDisp(x, y) {
     return { x: minRatio * x, y: minRatio * y }
 };
 
-//get rgb values in string format
-function rgb(r, g, b) { return 'rgb(' + r + ',' + g + ',' + b + ')' }
+function rgb(r, g, b) { return 'rgb(' + r + ',' + g + ',' + b + ')' }  //rgb values in string format
 
-//return the min
-function minWin() { return Math.min(window.innerHeight, window.innerWidth) };
+function minWin() { return Math.min(window.innerHeight, window.innerWidth) }; //return the min
 
 
 
@@ -120,13 +118,13 @@ function elementHandler() {
 
 
 
+        //positioning - anchor applied
         function setPos(x, y) {
             obj.pos = vec2(x, y)
             objS.left = x + 'px'
             objS.top = y + 'px'
         }
 
-        //positioning - anchor applied
         let anchorX = obj.anchor.x * obj.size.x
         let anchorY = obj.anchor.y * obj.size.y
         if (obj.usePosRatio == false || obj.usePosRatio == undefined) {
@@ -140,3 +138,25 @@ function elementHandler() {
 
     })
 };
+
+
+
+//assign properties of djsflElement
+/**
+*
+* @paragraph Assign properties to djsflElement, a shorthand to quickly assign values to djsflElements
+*
+*
+*/
+function elementAssign(obj, pos, usePosRatio, size, sizeState, anchor) {
+    //position constructor
+    obj.usePosRatio = usePosRatio
+    if (usePosRatio == true) { obj.posRatio = pos } else { obj.pos = pos }
+    //size constructor
+    obj.sizeState = sizeState
+    if (sizeState > 0) { obj.sizeRatio = size } else { obj.size = size }
+    //anchoring
+    obj.anchor = anchor
+}
+
+
