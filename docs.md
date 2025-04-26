@@ -29,8 +29,14 @@ for example if you want a 4:3 window ratio it will scale upwards or downwards ac
 
 ### createElement(type, debug, id) - creates an element with the djsflElement classname
 
-type  - Refers to the kind of DOMElement your creating in html format ex. div, span, img e.t.c.<br>
-debug - Visually adds color to the object and some size to be noticed easily when debugging.<br>
+**Please note** to respectively set the **position property** of element as by default with the djsflElement handled classes are set to **'absolute'** upon creation.
+
+If this affects desired outcome for specific element better to use the plain code **document.createElement()**
+
+
+
+type  - Refers to the kind of DOMElement your creating in html format ex. div, span, img e.t.c. <br>
+debug - Visually adds color to the object and some size to be noticed easily when debugging. <br>
 id    - The id of the element (optional parameter)
 
 ### Properties of djsflElement
@@ -55,8 +61,6 @@ Note: that when using posRatio or sizeRatio it will affect the pos and size to s
 so if the window is 1000 px wide and tall and **sizeRatio** is set to 0.5 on each axis then the **size** will be set to 500px though sizeRatio remains as in ratioed format so still 0.5
 
 As for **pos** and **posRatio** note that anchor is applied to each 
-
-
 
 **elementAssign**(obj,pos,usePosRatio,size,sizeState,anchor) - this function is a shorthand function/ one-liner code for manually assigning values to the djsflElement
 
@@ -87,3 +91,7 @@ ex. rgb(124,0,225)  //returns 'rgb(124,0,225)'
 ## ranNumBet(a,b) - returns a random number within range
 
 ex. ranNumBet(3,10) //potential returns 7   
+
+## roundToDec(num,dec) - round to nearest decimal point
+
+ex. rountToDec(1.6314112312,2) //reutrns 1.63
