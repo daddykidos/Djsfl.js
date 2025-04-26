@@ -1,4 +1,4 @@
-DaKi Javascript function library - Djsfl.js **V2**
+DaKi Javascript function library - djsfl.js **V2**
 
 ✔A reworked variant for more readability when coding, also slightly optimized and lesser lines of code
 
