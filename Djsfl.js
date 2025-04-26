@@ -41,6 +41,7 @@ function perWin(x, y) {
 function refById(id) { return document.getElementById(id) };
 
 //create element to document body
+//also not to respectively assign position as it defaults to 'absolute'
 function createElement(type, debug, id) {
     const obj = document.createElement(type);
     const objS = obj.style;
