@@ -33,8 +33,6 @@ for example if you want a 4:3 window ratio it will scale upwards or downwards ac
 
 If this affects desired outcome for specific element better to use the plain code **document.createElement()**
 
-
-
 type  - Refers to the kind of DOMElement your creating in html format ex. div, span, img e.t.c. <br>
 debug - Visually adds color to the object and some size to be noticed easily when debugging. <br>
 id    - The id of the element (optional parameter)
@@ -95,3 +93,7 @@ ex. ranNumBet(3,10) //potential returns 7
 ## roundToDec(num,dec) - round to nearest decimal point
 
 ex. rountToDec(1.6314112312,2) //reutrns 1.63
+
+## lerp(from, to, speed) - lerp the from value to the goal and slow in down based on speed
+
+ex. lerp(5,10,.5) //returns 7.5

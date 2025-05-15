@@ -12,8 +12,9 @@
   sizeRatio - vector2
 
   usePosRatio - bool  note: false - pixel pos | true - ratioed pos
-  SizeState - number  note: 0-pixel | 1-width | 2-height | 3-own axis
+  sizeState - number  note: 0-pixel | 1-width | 2-height | 3-own axis
  */
+
 
 
 //      /   /   /   /   /   /   /   / VECTOR FUNCTIONS   /   /   /   /   /   /   /
@@ -24,8 +25,7 @@ function vector2(x, y) {
     return { x: x, y: y };
 };
 
-//shortcut for the function "vector2"
-const vec2 = (x, y)=>vector2(x, y);
+const vec2 = (x, y)=>vector2(x, y); //shortcut for the function "vector2"
 
 /**
  @param perWin - 'Percentaged window in vector2 form'
@@ -53,8 +53,9 @@ const ranNumBet = (a, b)=> a + (b - a) * Math.random(); // Random number between
 
 const rgb = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'   //rgb values in string format
 
-function minWin() { return Math.min(window.innerHeight, window.innerWidth) }; //return the min
+const minWin = () =>Math.min(window.innerHeight, window.innerWidth); //return the min
 
+const lerp = (from,to,speed)=>(to-from)*speed; //lerp number
 //Round to nearest decimal
 const roundToDec = (num,dec) => Math.round((num+Number.EPSILON)*Math.pow(10,dec))/Math.pow(10,dec)
 
@@ -72,6 +73,8 @@ function createElement(type, debug, id) {
 
     //element data
     obj.pos = vec2(); obj.anchor = vec2(); obj.size = vec2()
+    obj.posRatio = vec2(); obj.sizeRatio = vec2()
+	obj.usePosRatio = false; obj.sizeState = 0
 
     if (debug == true) {
         Object.assign(objS, {
@@ -84,7 +87,6 @@ function createElement(type, debug, id) {
 
     }; return document.body.appendChild(obj);
 };
-
 
 
 
@@ -130,7 +132,6 @@ function elementHandler() {
 
         //positioning - anchor applied
         function setPos(x, y) {
-            obj.pos = vec2(x, y)
             objS.left = x + 'px'
             objS.top = y + 'px'
         }
@@ -144,6 +145,8 @@ function elementHandler() {
         } else {
             //ratioed position
             setPos(obj.posRatio.x * windowW - anchorX, obj.posRatio.y * windowH - anchorY)
+			obj.pos.x = obj.posRatio.x * windowW - anchorX
+			obj.pos.y = obj.posRatio.y * windowH - anchorY
         }
 
     })
