@@ -25,7 +25,7 @@ function vector2(x, y) {
     return { x: x, y: y };
 };
 
-const vec2 = (x, y)=>vector2(x, y); //shortcut for the function "vector2"
+const vec2 = (x, y) => vector2(x, y); //shortcut for the function "vector2"
 
 /**
  @param perWin - 'Percentaged window in vector2 form'
@@ -49,15 +49,16 @@ function rltvDisp(x, y) {
     return { x: minRatio * x, y: minRatio * y }
 };
 
-const ranNumBet = (a, b)=> a + (b - a) * Math.random(); // Random number between 2 parameters
+const ranNumBet = (a, b) => a + (b - a) * Math.random(); // Random number between 2 parameters
 
 const rgb = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'   //rgb values in string format
 
-const minWin = () =>Math.min(window.innerHeight, window.innerWidth); //return the min
+const minWin = () => Math.min(window.innerHeight, window.innerWidth); //return the min
 
-const lerp = (from,to,speed)=>(to-from)*speed; //lerp number
+const lerp = (from, to, speed) => (to - from) * speed; //lerp number
+
 //Round to nearest decimal
-const roundToDec = (num,dec) => Math.round((num+Number.EPSILON)*Math.pow(10,dec))/Math.pow(10,dec)
+const roundToDec = (num, dec) => Math.round((num + Number.EPSILON) * Math.pow(10, dec)) / Math.pow(10, dec)
 
 
 
@@ -71,11 +72,14 @@ function createElement(type, debug, id) {
     obj.className = 'djsflElement';
     if (id != undefined) { obj.id = id };
 
-    //element data
-    obj.pos = vec2(); obj.anchor = vec2(); obj.size = vec2()
-    obj.posRatio = vec2(); obj.sizeRatio = vec2()
-	obj.usePosRatio = false; obj.sizeState = 0
+    //element data	
+    Object.assign(obj, {
+        pos: vec2(), size: vec2(), anchor: vec2(),
+        posRatio: vec2(), sizeRatio: vec2(),
+        usePosRatio: false, sizeState: 0
+    });
 
+    //debug values
     if (debug == true) {
         Object.assign(objS, {
             position: 'absolute',
@@ -130,14 +134,17 @@ function elementHandler() {
 
 
 
+        //note: pls use separate size property for positioning from resizing as to prevent conlict
         //positioning - anchor applied
         function setPos(x, y) {
             objS.left = x + 'px'
             objS.top = y + 'px'
         }
 
-        let anchorX = obj.anchor.x * obj.size.x
-        let anchorY = obj.anchor.y * obj.size.y
+        let anchor = obj.anchor
+        let anchorX = anchor.x * obj.size.x
+        let anchorY = anchor.y * obj.size.y
+
         if (obj.usePosRatio == false || obj.usePosRatio == undefined) {
             //pixel position
             setPos(obj.pos.x - anchorX, obj.pos.y - anchorY)
@@ -145,8 +152,9 @@ function elementHandler() {
         } else {
             //ratioed position
             setPos(obj.posRatio.x * windowW - anchorX, obj.posRatio.y * windowH - anchorY)
-			obj.pos.x = obj.posRatio.x * windowW - anchorX
-			obj.pos.y = obj.posRatio.y * windowH - anchorY
+            //adjust pos to match posRatio for easy value reading
+            obj.pos.x = obj.posRatio.x * windowW - anchorX
+            obj.pos.y = obj.posRatio.y * windowH - anchorY
         }
 
     })
