@@ -23,6 +23,24 @@ This function multiplies each axis according to the window size <br>for example 
 
 for example if you want a 4:3 window ratio it will scale upwards or downwards according to the height/width of the window 
 
+
+
+## Vector2 with expanded functionality
+
+You can now since may 23, 2025 perform methods on vector2 classes
+
+following fucntions/methods available
+
+- add()
+
+- sub() //subtrat
+
+- div() //divide
+
+- multiply()
+
+- lerp(from, to, spd)
+
 **/    /    /    /    /    /    /    /    /    /    /    /    /    /**
 
 ## dlsflElement - Element created using createElement function

@@ -19,28 +19,31 @@
 
 //      /   /   /   /   /   /   /   / VECTOR FUNCTIONS   /   /   /   /   /   /   /
 //A simulated vector using x,y axises
-function vector2(x, y) {
-    if (x == undefined) { x = 0 }
-    if (y == undefined) { y = x }
-    return { x: x, y: y };
-};
+class vector2 {
+    constructor(x,y) {
+        this.x = x || 0
+        this.y = y || 0
+    }
+	//vector FUNCTIONS
+	add(x,y){return new vector2(this.x+x,this.y+(y||0))}//add vectors
+	sub(x,y){return new vector2(this.x-x,this.y-(y||0))}//minus vectors
+	multiply(x,y){return new vector2(this.x*x,this.y*(y||x))} //multiply vectors
+	div(x,y){return new vector2(this.x/x,this.y/(y||x))}//divide vectors
+	lerp(from,to,spd){return new vector2((to.x-from.x)*spd,(to.y-from.y)*spd)}//lerp vectors
+}
 
-const vec2 = (x, y) => vector2(x, y); //shortcut for the function "vector2"
+function vec2(x,y){return new vector2(x,y)} //shortcut for creating a "vector2" class
 
 /**
  @param perWin - 'Percentaged window in vector2 form'
  * range - 0-1
  */
-function perWin(x, y) {
-    const height = window.innerHeight
-    if (y == undefined) { y = height * x } else { y = height * y }
-    return { x: window.innerWidth * x, y: y }
-}
+function perWin(x, y) { return { x: window.innerWidth * x, y: window.innerHeight * (y || x) } }
 
 
 
 //      /   /   /   /   /   /   /   / RANDOM FUNCTIONS   /   /   /   /   /   /   /
-const refById = (id) => document.getElementById(id);// refer to element by id
+function refById(id){return document.getElementById(id)};// refer to element by id
 
 //retrieve relative size to the window size with desired window ratios (ex 16:9, 4:3)
 //while maintaining size within window
@@ -49,16 +52,16 @@ function rltvDisp(x, y) {
     return { x: minRatio * x, y: minRatio * y }
 };
 
-const ranNumBet = (a, b) => a + (b - a) * Math.random(); // Random number between 2 parameters
+function ranNumBet(a, b){return a + (b - a) * Math.random(); }// Random number between 2 parameters
 
 const rgb = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'   //rgb values in string format
 
 const minWin = () => Math.min(window.innerHeight, window.innerWidth); //return the min
 
-const lerp = (from, to, speed) => (to - from) * speed; //lerp number
+function lerp(from, to, speed) {return(to - from) * speed; }//lerp number
 
 //Round to nearest decimal
-const roundToDec = (num, dec) => Math.round((num + Number.EPSILON) * Math.pow(10, dec)) / Math.pow(10, dec)
+function roundToDec(num, dec){return Math.round((num + Number.EPSILON) * Math.pow(10, dec)) / Math.pow(10, dec)}
 
 
 
