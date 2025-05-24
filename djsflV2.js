@@ -19,17 +19,49 @@
 
 //      /   /   /   /   /   /   /   / VECTOR FUNCTIONS   /   /   /   /   /   /   /
 //A simulated vector using x,y axises
+//expand vector values - rec for use within class scope
+function expand(x,y){
+	if (x instanceof vector2){
+		return [x.x,x.y]
+	} else {return [x,y]}
+}
+	
 class vector2 {
     constructor(x,y) {
         this.x = x || 0
-        this.y = y || 0
+        this.y = y || x
     }
 	//vector FUNCTIONS
-	add(x,y){return new vector2(this.x+x,this.y+(y||0))}//add vectors
-	sub(x,y){return new vector2(this.x-x,this.y-(y||0))}//minus vectors
-	multiply(x,y){return new vector2(this.x*x,this.y*(y||x))} //multiply vectors
-	div(x,y){return new vector2(this.x/x,this.y/(y||x))}//divide vectors
-	lerp(from,to,spd){return new vector2((to.x-from.x)*spd,(to.y-from.y)*spd)}//lerp vectors
+	//add vectors
+	add(x,y){
+		let [dx, dy] = expand(x,y)
+		return new vector2(this.x+dx,this.y+(dy||0))
+	}
+	//minus vectors
+	sub(x,y){
+		let [dx, dy] = expand(x,y)
+		return new vector2(this.x-dx,this.y-(dy||0))
+	}
+	//mulitply vectors
+	multiply(x,y){
+		let [dx, dy] = expand(x,y)
+		return new vector2(this.x*dx,this.y*(dy||dx))
+	}
+	//divide vectors
+	div(x,y){
+		let [dx, dy] = expand(x,y)
+		return new vector2(this.x/dx,this.y/(dy||dx))
+	}
+	//lerp vectors
+	lerp(goal,spd){
+		let [dx, dy] = expand(goal.x,goal.y)
+		return new vector2((dx-this.x)*spd,(dy-this.y)*spd)
+	}
+	//get distance of 2 vectors
+	dist(x,y){
+		let [dx, dy] = expand(goal.x,goal.y)
+		return  Math.hypot(this.x-dx, this.y-dy)
+	}
 }
 
 function vec2(x,y){return new vector2(x,y)} //shortcut for creating a "vector2" class
@@ -38,7 +70,7 @@ function vec2(x,y){return new vector2(x,y)} //shortcut for creating a "vector2" 
  @param perWin - 'Percentaged window in vector2 form'
  * range - 0-1
  */
-function perWin(x, y) { return { x: window.innerWidth * x, y: window.innerHeight * (y || x) } }
+function perWin(x, y) { return new vector2(window.innerWidth * x,window.innerHeight * (y || x)) }
 
 
 
@@ -56,7 +88,7 @@ function ranNumBet(a, b){return a + (b - a) * Math.random(); }// Random number b
 
 const rgb = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'   //rgb values in string format
 
-const minWin = () => Math.min(window.innerHeight, window.innerWidth); //return the min
+function minWin(){ Math.min(window.innerHeight, window.innerWidth)}; //return the min
 
 function lerp(from, to, speed) {return(to - from) * speed; }//lerp number
 

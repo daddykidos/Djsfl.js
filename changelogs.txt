@@ -6,3 +6,5 @@ fixed minor function bugs
 May 23, 2025
 expanded vector2 functionality
 reworked vector2 structure
+May 24, 2025
+fixed vector2 functionalities
