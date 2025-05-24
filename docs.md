@@ -40,6 +40,7 @@ following fucntions/methods available
 - multiply()
 
 - lerp(from, to, spd)
+- dist(vec) //returns number
 
 **/    /    /    /    /    /    /    /    /    /    /    /    /    /**
 
