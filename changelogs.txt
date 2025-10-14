@@ -2,9 +2,24 @@ May 15, 2025
 - fixed pos bug with usePosRatio being false though creating conflict
 - object initialization properties for elements created with createElement()
 May 16, 2025
-fixed minor function bugs
+- fixed minor function bugs
 May 23, 2025
-expanded vector2 functionality
-reworked vector2 structure
+- expanded vector2 functionality
+- reworked vector2 structure
 May 24, 2025
 fixed vector2 functionalities
+May 25, 2025
+- extra vector2 functions
+- added minAxis size state
+June 2, 2025
+- fixed rltvDisp() to be outputting vector2 instead of array
+- added elementInit() 
+June 4, 2025
+- elementInit() optimized
+June 5, 2025
+- reverted rgb syntax to regular function syntax
+- added expand() function to most vector functions
+June 21, 2025
+- fixed elementInit classList bug
+Aug 17, 2025
+- reworked some functionality of elementHandler()

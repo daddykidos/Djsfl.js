@@ -1,23 +1,15 @@
 /** djsfl.js object properties
   object which are created with the createElement function has the 'djsflElement' className
 
-  elementHandler() - function to refresh properties of elements
-
-  properties:
-  pos - vector2       note: (not position) as conflicts with js
-  size - vector2
-  anchor - vector2    note: default vec2(0,0) - top left
-
-  posRatio - vector2
-  sizeRatio - vector2
-
-  usePosRatio - bool  note: false - pixel pos | true - ratioed pos
-  sizeState - number  note: 0-pixel | 1-width | 2-height | 3-own axis
+TABLE OF CONTENTS
+- VECTOR SECTION
+- RANDOM SECTION
+- DJSFLELEMENT SECTION
  */
 
 
 
-//      /   /   /   /   /   /   /   / VECTOR FUNCTIONS   /   /   /   /   /   /   /
+//      /   /   /   /   /   /   /   / VECTOR FUNCTIONS   /   /   /   /   /   /   / VECTOR SECTION
 //A simulated vector using x,y axises
 //expand vector values - rec for use within class scope
 function expand(x,y){
@@ -29,7 +21,7 @@ function expand(x,y){
 class vector2 {
     constructor(x,y) {
         this.x = x || 0
-        this.y = y || x
+        this.y = y || this.x
     }
 	//vector FUNCTIONS
 	//add vectors
@@ -43,7 +35,7 @@ class vector2 {
 		return new vector2(this.x-dx,this.y-(dy||0))
 	}
 	//mulitply vectors
-	multiply(x,y){
+	scale(x,y){
 		let [dx, dy] = expand(x,y)
 		return new vector2(this.x*dx,this.y*(dy||dx))
 	}
@@ -59,7 +51,7 @@ class vector2 {
 	}
 	//get distance of 2 vectors
 	dist(x,y){
-		let [dx, dy] = expand(goal.x,goal.y)
+		let [dx, dy] = expand(x,y)
 		return  Math.hypot(this.x-dx, this.y-dy)
 	}
 }
@@ -70,25 +62,32 @@ function vec2(x,y){return new vector2(x,y)} //shortcut for creating a "vector2" 
  @param perWin - 'Percentaged window in vector2 form'
  * range - 0-1
  */
-function perWin(x, y) { return new vector2(window.innerWidth * x,window.innerHeight * (y || x)) }
+function perWin(x, y) { 
+	let [dx,dy] = expand(x,y)
+	return new vector2(window.innerWidth * dx,window.innerHeight * (dy || dx)) 
+}
+
+//get window size in vector2 format
+function getWindow(){return new vector2(window.innerWidth,window.innerHeight)} 
 
 
 
-//      /   /   /   /   /   /   /   / RANDOM FUNCTIONS   /   /   /   /   /   /   /
+//      /   /   /   /   /   /   /   / RANDOM FUNCTIONS   /   /   /   /   /   /   / RANDOM SECTION
 function refById(id){return document.getElementById(id)};// refer to element by id
 
 //retrieve relative size to the window size with desired window ratios (ex 16:9, 4:3)
 //while maintaining size within window
 function rltvDisp(x, y) {
-    const minRatio = Math.min(window.innerWidth / x, window.innerHeight / y)
-    return { x: minRatio * x, y: minRatio * y }
+	let [dx, dy] = expand(x, y)
+    const minRatio = Math.min(window.innerWidth / dx, window.innerHeight / dy)
+    return vec2(minRatio * dx, minRatio * dy )
 };
 
 function ranNumBet(a, b){return a + (b - a) * Math.random(); }// Random number between 2 parameters
 
-const rgb = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'   //rgb values in string format
+function rgb(r, g, b){return 'rgb(' + r + ',' + g + ',' + b + ')'}   //rgb values in string format
 
-function minWin(){ Math.min(window.innerHeight, window.innerWidth)}; //return the min
+function minWin(){ return Math.min(window.innerHeight, window.innerWidth)}; //return the min
 
 function lerp(from, to, speed) {return(to - from) * speed; }//lerp number
 
@@ -97,7 +96,7 @@ function roundToDec(num, dec){return Math.round((num + Number.EPSILON) * Math.po
 
 
 
-//      /   /   /   /   /   /   /   / DJSFLELEMENT HANDLING   /   /   /   /   /   /   /
+//      /   /   /   /   /   /   /   / DJSFLELEMENT HANDLING   /   /   /   /   /   /   / DJSFLELEMENT SECTION
 
 //create element to document body
 //please note to respectively set position as upon creation defaults to 'absolute'
@@ -129,13 +128,38 @@ function createElement(type, debug, id) {
 
 
 
+//initialize a none djsflElement that has been used within the document
+function elementInit(obj){
+	if(obj.classList.contains('djsflElement') == false ){
+	obj.className += ' djsflElement'
+	}
+	Object.assign(obj,{
+		pos: vec2(), size: vec2(), anchor: vec2(),
+        posRatio: vec2(), sizeRatio: vec2(),
+        usePosRatio: false, sizeState: 0
+	})
+}
+
+
+
+//easy assigning of size states for djsflElement
+const sizeStates = {pixel: 0, width: 1, height: 2, axis: 3, minAxis: 4  }
+
 /**Handles elements with 'djsflElement' className
  *   refreshes properties such as size/pos
  *   remember to set respective properties 'display' of elements
  */
 function elementHandler() {
     Array.from(document.body.getElementsByClassName('djsflElement')).forEach((obj, index) => {
-        let objS = obj.style
+        objHandle(obj)
+    })
+};
+
+
+
+//single djsflElement handler - refreshes only specified obj
+function objHandle(obj){
+	let objS = obj.style
 
         //element resizing
         let sizeState = obj.sizeState
@@ -165,12 +189,16 @@ function elementHandler() {
             //own axis ratio size
             setSize(sizeRatio.x * windowW, sizeRatio.y * windowH)
 
-        }
+        } else if(sizeState == 4){
+			//min axis scaling
+			let minWin = Math.min(window.innerHeight, window.innerWidth)
+			setSize(sizeRatio.x*minWin, sizeRatio.y*minWin)
+		}
 
 
 
-        //note: pls use separate size property for positioning from resizing as to prevent conlict
-        //positioning - anchor applied
+        //note: pls use direct property value for positioning from resizing as to prevent conlict
+        //Section: positioning - anchor applied
         function setPos(x, y) {
             objS.left = x + 'px'
             objS.top = y + 'px'
@@ -191,9 +219,7 @@ function elementHandler() {
             obj.pos.x = obj.posRatio.x * windowW - anchorX
             obj.pos.y = obj.posRatio.y * windowH - anchorY
         }
-
-    })
-};
+}
 
 
 
@@ -201,7 +227,6 @@ function elementHandler() {
 /**
 *
 * @paragraph Assign properties to djsflElement, a shorthand to quickly assign values to djsflElements
-*
 *
 */
 function elementAssign(obj, pos, usePosRatio, size, sizeState, anchor) {

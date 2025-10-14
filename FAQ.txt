@@ -1,0 +1,2 @@
+Values of djsfl elements always returning values of zero of null?
+Try before accessing the variable to use the function elementHandler()
