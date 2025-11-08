@@ -5,6 +5,7 @@ TABLE OF CONTENTS
 - VECTOR SECTION
 - RANDOM SECTION
 - DJSFLELEMENT SECTION
+- FUNCTION BATCH LOOP SECTION
  */
 
 
@@ -241,3 +242,33 @@ function elementAssign(obj, pos, usePosRatio, size, sizeState, anchor) {
 }
 
 
+
+//      /   /   /   /   /   /   /   FUNCTION BATCH LOOP SECTION   /   /   /   /   /   /   / 
+// FUNCTION LOOP BATCH LIBRARY -- good for loop batch running different funcitons within a loop
+// ex. fps based game 60 calls per sec
+// & for performance kill the function when no longer needed to be looped
+let functions = []
+function addAsFunc(func, name) {
+    let funcObj = new Object()
+    funcObj.func = func
+    funcObj.name = name
+    functions.push(funcObj)
+}
+
+//kill function - so as to not let it be treated as a batch function but can still be used for other uses
+function killFunc(name, delay) {
+    setTimeout(() => {
+        let found = functions.findIndex((obj) => obj.name == name)
+        if (found > -1) {
+            functions.splice(found, 1)
+        }
+    }, delay);
+}
+
+//calls all batch functions-call this function ONLY once 
+function callFunctions(delay) {
+    setTimeout(() => {
+        functions.forEach(obj => { obj.func.call() });
+        callFunctions()
+    }, delay);
+};

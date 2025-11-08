@@ -23,3 +23,6 @@ June 21, 2025
 - fixed elementInit classList bug
 Aug 17, 2025
 - reworked some functionality of elementHandler()
+Nov 7, 2025
+- Added Batch function loop calling or can be called once manually
+- functions: callFunctions(); addAsFunc(); killFunc()

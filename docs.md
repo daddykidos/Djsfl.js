@@ -4,6 +4,7 @@
 - vector2
 - djsflElement
 - other functions
+- Batch Function calling
 
 ## May be incomplete or outdated from time to time
 
@@ -123,3 +124,24 @@ ex. rountToDec(1.6314112312,2) //reutrns 1.63
 ## lerp(from, to, speed) - lerp the from value to the goal and slow in down based on speed
 
 ex. lerp(5,10,.5) //returns 7.5
+
+
+
+**/    /    /    /    /    /    /    /    /    /    /    /    /    /**
+#Batch Function calling
+
+## callFunctions(delay) - repeatedly on a loop calls every functions added to the functions **array**
+## addAsFunc(func,name) - name the function so it can be accessed to be killed since functions are contained within an **object** to make them easy to manipulate
+## killFunc(name,delay) - kill the function based on the name you gave it
+
+example use case
+function yay(){console.log('yay')}
+function boo(){console.log('boooo')}
+
+addAsFunc(boo,'boo')
+addAsFunc(yay,'yay')
+
+callFunctions(1000/30) //calls all listed function at 30fps
+
+killFunc(boo,5000) //kills function after 5 seconds
+

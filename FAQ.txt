@@ -1,2 +1,6 @@
-Values of djsfl elements always returning values of zero of null?
-Try before accessing the variable to use the function elementHandler()
+Q. Values of djsfl elements always returning values of zero of null?
+Ans. Try before accessing the variable to use the function elementHandler()
+
+Q. Is this library stable for major projects or stable anyway?
+Ans. Not entirely and may even have behaviorial bugs depending on your use cases. Please treat this library for hobby purposes - - else be aware of potential risks
+(Since I tried using my library to create a keyboard tester with the use of divs and got bugs)
